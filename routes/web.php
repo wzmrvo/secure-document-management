@@ -6,26 +6,29 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | DocuSecure web routes (FRONTEND PHASE)
 |--------------------------------------------------------------------------
-| These routes only return Blade views. There is no controller, database or
-| authentication logic yet. When the backend phase starts, replace each closure
-| with a controller method and keep the route names (the sidebar uses them).
+| These routes only return Blade views backed by static mock data in
+| resources/mock/*.php. There is no controller, database or authentication
+| logic yet. When the backend phase starts, replace each closure/view route with
+| a controller method and keep the route names (the sidebar and pages use them).
 */
 
 Route::redirect('/', '/dashboard');
 
 Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-// Modules scheduled for later phases use a shared placeholder so navigation works.
-$pending = [
-    ['/documents',        'documents.index',  'Documents',         'file',      'Phase 3'],
-    ['/documents/upload', 'documents.create', 'Upload Document',   'upload',    'Phase 3'],
-    ['/access',           'access.index',     'Access Requests',   'key',       'Phase 4'],
-    ['/categories',       'categories.index', 'Categories',        'tag',       'Phase 5'],
-    ['/users',            'users.index',      'User Management',   'users',     'Phase 5'],
-    ['/audit-logs',       'audit.index',      'Audit Logs',        'clipboard', 'Phase 6'],
-    ['/settings',         'settings.index',   'Settings',          'settings',  'Phase 6'],
-];
+// Documents (upload must stay above the {id} route)
+Route::view('/documents', 'documents.index')->name('documents.index');
+Route::view('/documents/upload', 'documents.create')->name('documents.create');
+Route::get('/documents/{id}', function (int $id) {
+    $documents = require resource_path('mock/documents.php');
+    $document = collect($documents)->firstWhere('id', $id);
+    abort_if($document === null, 404);
 
-foreach ($pending as [$uri, $name, $title, $icon, $phase]) {
-    Route::view($uri, 'pages.placeholder', compact('title', 'icon', 'phase'))->name($name);
-}
+    return view('documents.show', ['document' => $document]);
+})->whereNumber('id')->name('documents.show');
+
+Route::view('/access', 'access.index')->name('access.index');
+Route::view('/categories', 'categories.index')->name('categories.index');
+Route::view('/users', 'users.index')->name('users.index');
+Route::view('/audit-logs', 'audit.index')->name('audit.index');
+Route::view('/settings', 'settings.index')->name('settings.index');

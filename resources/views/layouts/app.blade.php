@@ -39,6 +39,8 @@
     <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/forms.js') }}"></script>
+    <script src="{{ asset('js/data-table.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
