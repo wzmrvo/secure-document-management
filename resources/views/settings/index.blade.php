@@ -38,7 +38,8 @@
             <div class="card__head"><h3 id="profile-title">Administrator profile</h3></div>
             <div class="card__body">
                 <p class="muted" style="font-size: var(--fs-sm); margin-bottom: var(--space-4);">Keep your contact details up to date.</p>
-                <form id="profile-form" class="form-stack" novalidate>
+                <form id="profile-form" class="form-stack" method="post" novalidate>
+                    @csrf
                     <div class="form-grid-2">
                         <div class="field">
                             <label for="profile-name">Full name <span class="req">*</span></label>
@@ -68,7 +69,8 @@
             <div class="card__head"><h3 id="password-title">Password management</h3></div>
             <div class="card__body">
                 <p class="muted" style="font-size: var(--fs-sm); margin-bottom: var(--space-4);">Use at least 8 characters with a mix of letters and numbers.</p>
-                <form id="password-form" class="form-stack" novalidate>
+                <form id="password-form" class="form-stack" method="post" autocomplete="off" novalidate>
+                    @csrf
                     @foreach ([['current-password', 'Current password'], ['new-password', 'New password'], ['confirm-password', 'Confirm new password']] as [$id, $label])
                         <div class="field">
                             <label for="{{ $id }}">{{ $label }} <span class="req">*</span></label>
@@ -116,9 +118,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="note note--success" style="margin-top: var(--space-4);">
-                    <strong>Encrypted and well configured</strong>
-                    Your current settings meet the recommended security level.
+                <div class="note" style="margin-top: var(--space-4);">
+                    <strong>Prototype only</strong>
+                    These switches do not change any real security setting yet. Enforcement belongs in the Laravel backend.
                 </div>
             </div>
         </section>

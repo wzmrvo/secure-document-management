@@ -92,7 +92,8 @@
 
     {{-- Edit document --}}
     <x-modal id="edit-doc-modal" title="Edit document">
-        <form id="edit-doc-form" class="form-stack" novalidate>
+        <form id="edit-doc-form" class="form-stack" method="post" novalidate>
+            @csrf
             <div class="field">
                 <label for="edit-doc-title">File name <span class="req">*</span></label>
                 <input class="input" id="edit-doc-title" type="text" maxlength="120">

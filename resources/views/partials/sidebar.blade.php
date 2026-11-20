@@ -50,8 +50,9 @@
         <div class="sidebar__status">
             <x-icon name="shield-check" />
             <div class="sidebar__status-text">
-                <strong>Your workspace is secure</strong>
-                <span>All systems operational</span>
+                {{-- Deliberately NOT "workspace is secure": a static label must not claim protection that is not verified. --}}
+                <strong>Prototype mode</strong>
+                <span>Mock data · no live security</span>
             </div>
         </div>
     </div>

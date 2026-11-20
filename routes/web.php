@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Route;
 | a controller method and keep the route names (the sidebar and pages use them).
 */
 
-Route::redirect('/', '/dashboard');
+// SECURITY NOTE: none of these routes is protected yet. In the backend phase every route below
+// the login page must sit inside Route::middleware(['auth', ...]) and be checked by Policies.
+Route::redirect('/', '/login');
+Route::view('/login', 'auth.login')->name('login');
 
 Route::view('/dashboard', 'dashboard')->name('dashboard');
 

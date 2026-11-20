@@ -113,7 +113,8 @@
 
     {{-- Edit details --}}
     <x-modal id="edit-details-modal" title="Edit document">
-        <form id="edit-details-form" class="form-stack" novalidate>
+        <form id="edit-details-form" class="form-stack" method="post" novalidate>
+            @csrf
             <div class="field">
                 <label for="edit-title">Title <span class="req">*</span></label>
                 <input class="input" id="edit-title" type="text" maxlength="120" value="{{ $title }}">
@@ -143,7 +144,8 @@
 
     {{-- Unauthorized-user view: request access --}}
     <x-modal id="request-access-modal" title="Request access">
-        <form id="request-access-form" class="form-stack" novalidate>
+        <form id="request-access-form" class="form-stack" method="post" novalidate>
+            @csrf
             <div class="note note--info" style="margin-bottom: 0;">
                 <x-icon name="lock" />
                 <span>This is what a user without permission sees. They must request access before they can open "<span data-bind="file">{{ $document['file'] }}</span>".</span>
@@ -161,6 +163,7 @@
 @endsection
 
 @push('scripts')
-    <script>window.DocuSecureAccessRules = @json($accessRules);</script>
+    {{-- Js::from escapes </script> and quotes, so data can never break out of this tag. Display only: the server must enforce access. --}}
+    <script>window.DocuSecureAccessRules = {{ \Illuminate\Support\Js::from($accessRules) }};</script>
     <script src="{{ asset('js/pages/document-show.js') }}"></script>
 @endpush

@@ -1,0 +1,81 @@
+/* ==========================================================================
+   DocuSecure – Login / authentication screens (CvSU green + gold)
+   Loaded only by layouts/auth.blade.php, after docusecure.css (which provides
+   shared inputs, buttons, modal and toast styles). The in-app UI stays navy/blue.
+   ========================================================================== */
+:root {
+    --cvsu-green: #14452f;
+    --cvsu-green-600: #166534;
+    --cvsu-green-700: #0f3a27;
+    --cvsu-green-50: #e8f3ec;
+}
+
+.auth-body { background: var(--white); }
+.auth { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100vh; }
+
+/* Brand panel ------------------------------------------------------------ */
+.auth__brand {
+    position: relative; display: flex; flex-direction: column; gap: var(--space-5);
+    padding: 48px; background: var(--cvsu-green); color: #d7e6dd; overflow: hidden;
+}
+.auth__brand::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 6px; background: var(--gold); }
+.auth__logos { display: flex; align-items: center; gap: var(--space-4); }
+.auth__logo-img { width: 72px; height: 72px; flex: none; object-fit: contain; }
+.auth__wordmark { display: flex; align-items: center; gap: var(--space-2); color: var(--white); font-size: var(--fs-xl); font-weight: 700; line-height: 1.1; }
+.auth__wordmark .icon { width: 26px; height: 26px; color: var(--gold); }
+.auth__institution { margin-top: 4px; font-size: var(--fs-sm); color: #b8d0c1; }
+.auth__eyebrow { margin-top: auto; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.auth__headline { margin-top: var(--space-2); font-size: 38px; font-weight: 700; line-height: 1.15; color: var(--white); }
+.auth__lead { margin-top: var(--space-3); max-width: 420px; font-size: var(--fs-md); color: #c3d8cc; }
+.auth__art { width: 190px; height: auto; margin: var(--space-3) 0; }
+.auth__goals { margin-top: auto; padding-top: var(--space-4); border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: var(--fs-xs); color: #b8d0c1; }
+.auth__goals strong { color: var(--gold); font-weight: 600; }
+
+/* Form panel ------------------------------------------------------------- */
+.auth__panel { display: flex; flex-direction: column; justify-content: center; padding: 48px 24px; }
+.auth__card { width: 100%; max-width: 400px; margin: 0 auto; }
+.auth__title { font-size: 28px; font-weight: 700; color: var(--cvsu-green); }
+.auth__subtitle { margin-top: 4px; color: var(--text-muted); }
+.auth__form { margin-top: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+.auth__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); font-size: var(--fs-sm); }
+.auth__check { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; }
+.auth__check input { width: 16px; height: 16px; accent-color: var(--cvsu-green-600); }
+.auth a, .auth .text-link-btn { color: var(--cvsu-green-600); font-weight: 600; }
+.auth .btn--primary { background: var(--cvsu-green-600); width: 100%; }
+.auth .btn--primary:hover { background: var(--cvsu-green); }
+.auth .btn--secondary { color: var(--cvsu-green); }
+.auth .input:focus, .auth .select:focus, .auth .textarea:focus { border-color: var(--cvsu-green-600); box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.18); }
+.auth :focus-visible { outline-color: var(--cvsu-green-600); }
+.auth__note { margin-top: var(--space-5); font-size: var(--fs-sm); color: var(--text-muted); }
+.auth__assurance { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: var(--space-3); font-size: var(--fs-xs); color: var(--text-muted); }
+.auth__assurance .icon { width: 14px; height: 14px; }
+.auth__footer { margin-top: var(--space-6); font-size: var(--fs-xs); color: var(--text-muted); text-align: center; }
+.auth__code { letter-spacing: 0.4em; text-align: center; font-size: var(--fs-xl); font-weight: 600; }
+.auth__step-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+
+/* Alerts ------------------------------------------------------------------ */
+.alert { display: flex; gap: var(--space-3); margin-top: var(--space-4); padding: 12px 14px; border-radius: var(--radius); border: 1px solid; font-size: var(--fs-sm); }
+.alert .icon { width: 18px; height: 18px; margin-top: 1px; }
+.alert strong { display: block; }
+.alert--info { background: var(--blue-50); border-color: #c5d8ee; color: var(--navy); }
+.alert--success { background: var(--success-50); border-color: #bfe3cd; color: #14532d; }
+.alert--warning { background: var(--warning-50); border-color: #f2d5a8; color: #7a4305; }
+.alert--danger { background: var(--danger-50); border-color: #f1c0c0; color: #8f1b1b; }
+
+/* Demo disclosure ---------------------------------------------------------- */
+.demo { margin-top: var(--space-5); border: 1px dashed #b6c3d4; border-radius: var(--radius); background: #f8fafc; font-size: var(--fs-sm); }
+.demo summary { padding: 10px 14px; cursor: pointer; font-weight: 600; color: var(--text-muted); }
+.demo__body { padding: 0 14px 14px; }
+.demo__body p { margin-bottom: var(--space-3); color: var(--text-muted); font-size: var(--fs-xs); }
+.demo__buttons { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* Responsive --------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .auth { grid-template-columns: 1fr; }
+    .auth__brand { padding: 28px 24px 24px; gap: var(--space-3); }
+    .auth__logo-img { width: 56px; height: 56px; }
+    .auth__eyebrow { margin-top: var(--space-2); }
+    .auth__headline { font-size: 24px; }
+    .auth__lead, .auth__art, .auth__goals { display: none; }
+    .auth__panel { padding: 32px 20px 40px; }
+}

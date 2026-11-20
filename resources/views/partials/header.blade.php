@@ -1,8 +1,9 @@
 @php
     // Mock notifications. Replace with real data when the Laravel backend is connected.
     $notifications = [
-        ['text' => 'Dr. Emily Davis requested access to "Faculty handbook 2026"', 'time' => '10 minutes ago', 'unread' => true],
-        ['text' => 'Sarah Chen uploaded "Q4 financial report"', 'time' => '1 hour ago', 'unread' => true],
+        // Privacy by design: notifications must not reveal titles of Confidential/Restricted documents.
+        ['text' => 'New access request awaiting your review', 'time' => '10 minutes ago', 'unread' => true],
+        ['text' => 'A new document was uploaded to Finance', 'time' => '1 hour ago', 'unread' => true],
         ['text' => 'Audit log export completed', 'time' => 'Yesterday', 'unread' => false],
     ];
     $hasUnread = collect($notifications)->contains('unread', true);

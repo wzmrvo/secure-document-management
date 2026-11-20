@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="same-origin">
+    <meta name="robots" content="noindex, nofollow">
     <title>@yield('title', 'Dashboard') · DocuSecure</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,12 +29,13 @@
         </div>
     </div>
 
-    {{-- Logout confirmation (frontend demo only: the Login page is built in Phase 7) --}}
+    {{-- Logout confirmation. Demo: just navigates to the login page. The real logout must be a POST
+         (with CSRF) that invalidates the session on the server; a GET link cannot be trusted to log out. --}}
     <x-modal id="logout-modal" title="Log out of DocuSecure?">
         <p class="muted">You will need to sign in again to access institutional documents.</p>
         <x-slot:footer>
             <x-button variant="secondary" data-modal-close>Cancel</x-button>
-            <x-button variant="primary" data-modal-close data-toast="Logged out (demo). Login page arrives in Phase 7." data-toast-type="success">Log out</x-button>
+            <x-button variant="primary" :href="route('login', ['reason' => 'loggedout'])">Log out</x-button>
         </x-slot:footer>
     </x-modal>
 

@@ -87,16 +87,19 @@
 
         {{-- Security overview --}}
         <section class="card" aria-labelledby="security-title">
-            <div class="card__head"><h3 id="security-title">Security overview</h3></div>
+            <div class="card__head">
+                <h3 id="security-title">Security overview</h3>
+                <x-badge type="neutral">Sample data</x-badge>
+            </div>
             <div class="card__body">
                 <div class="security-score">
                     <x-icon name="shield-check" />
-                    <span class="security-score__value">95% protected</span>
+                    <span class="security-score__value">95% classified</span>
                 </div>
-                <div class="progress" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="Protected documents">
+                <div class="progress" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="Documents with a classification">
                     <div class="progress__bar" style="width: 95%;"></div>
                 </div>
-                <p class="muted" style="font-size: var(--fs-sm); margin: var(--space-3) 0;">1,186 of 1,248 documents have a classification and access rules applied.</p>
+                <p class="muted" style="font-size: var(--fs-sm); margin: var(--space-3) 0;">Sample figures: 1,186 of 1,248 documents have a classification. Real protection status must come from backend checks.</p>
                 <a class="link-arrow" href="{{ route('settings.index') }}">View security settings <x-icon name="arrow-right" style="width:14px;height:14px;vertical-align:-2px;" /></a>
             </div>
         </section>

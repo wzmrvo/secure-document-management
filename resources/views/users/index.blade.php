@@ -34,7 +34,8 @@
         @endforeach
     </div>
 
-    <div data-table data-page-size="6">
+    {{-- data-current-user: the signed-in admin (mock). Used only to demonstrate "no self role change / no self deactivation". --}}
+    <div data-table data-page-size="6" data-current-user="alex.morgan@cvsu.edu.ph">
         <div class="toolbar">
             <div class="search" role="search">
                 <x-icon name="search" />
@@ -81,8 +82,17 @@
         @include('users._row', ['user' => ['name' => '', 'email' => '', 'role' => 'Staff', 'status' => 'Active', 'date' => '']])
     </template>
 
+    <x-modal id="deactivate-user-modal" title="Deactivate this user?">
+        <p class="muted"><strong id="deactivate-user-name"></strong> will no longer be able to sign in. Their documents and history stay in the system. This action is recorded in the audit log once the backend exists.</p>
+        <x-slot:footer>
+            <x-button variant="secondary" data-modal-close>Cancel</x-button>
+            <x-button variant="danger" id="confirm-deactivate-user" data-modal-close>Deactivate</x-button>
+        </x-slot:footer>
+    </x-modal>
+
     <x-modal id="user-modal" title="Add user">
-        <form id="user-form" class="form-stack" novalidate>
+        <form id="user-form" class="form-stack" method="post" novalidate>
+            @csrf
             <div class="field">
                 <label for="user-name">Full name <span class="req">*</span></label>
                 <input class="input" id="user-name" type="text" maxlength="80">

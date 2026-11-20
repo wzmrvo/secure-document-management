@@ -1,9 +1,20 @@
 <?php
 
-/* MOCK DATA (frontend phase only). Each row: [user, action, document ('—' if none), datetime 'Y-m-d H:i', ip] */
+/*
+ | MOCK DATA (frontend phase only). Each row: [user, action, document ('—' if none), datetime 'Y-m-d H:i', ip, outcome]
+ | outcome: Success | Denied | Failed (defaults to Success). 203.0.113.x is a documentation-only IP range.
+ | A real log must never store passwords, tokens or document contents.
+ */
 return array_map(
-    fn ($row) => ['user' => $row[0], 'action' => $row[1], 'document' => $row[2], 'datetime' => $row[3], 'ip' => $row[4]],
+    fn ($row) => ['user' => $row[0], 'action' => $row[1], 'document' => $row[2], 'datetime' => $row[3], 'ip' => $row[4], 'outcome' => $row[5] ?? 'Success'],
     [
+        ['Unknown user',    'Failed login',        '—',                             '2026-11-19 07:58', '203.0.113.24', 'Failed'],
+        ['Unknown user',    'Failed login',        '—',                             '2026-11-19 07:57', '203.0.113.24', 'Failed'],
+        ['Olivia Taylor',   'Document access denied','Budget proposal FY 2027.xlsx','2026-11-18 14:31', '192.168.1.72', 'Denied'],
+        ['Alex Morgan',     'Permission changed',  'Faculty handbook 2026.pdf',     '2026-11-17 15:20', '192.168.1.14'],
+        ['Alex Morgan',     'Role changed',        '—',                             '2026-11-17 14:12', '192.168.1.14'],
+        ['Alex Morgan',     'Account deactivated', '—',                             '2026-11-12 16:05', '192.168.1.14'],
+        ['Sarah Chen',      'Logout',              '—',                             '2026-11-18 17:02', '192.168.1.32'],
         ['Alex Morgan',     'Access approved',     'Research ethics protocol.pdf',  '2026-11-19 09:12', '192.168.1.14'],
         ['Sarah Chen',      'Document uploaded',   'Faculty handbook 2026.pdf',     '2026-11-18 16:40', '192.168.1.32'],
         ['Dr. Emily Davis', 'Access requested',    'Q4 financial report.xlsx',      '2026-11-18 15:05', '192.168.1.57'],

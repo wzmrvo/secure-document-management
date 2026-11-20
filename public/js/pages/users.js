@@ -19,6 +19,20 @@
         var roleFilter = document.getElementById("role-filter");
         var roleCards = Array.prototype.slice.call(document.querySelectorAll("[data-role-card]"));
         var activeRow = null; // null while adding
+        var pendingDeactivate = null;
+        /* The checks below DEMONSTRATE rules the Laravel backend must enforce (UserPolicy). They can be bypassed
+           with a direct request, so they are usability only, never protection. */
+        var currentEmail = (root.getAttribute("data-current-user") || "").toLowerCase();
+
+        function activeAdminCount() {
+            return rows().filter(function (row) {
+                return row.dataset.role === "Administrator" && row.dataset.status === "Active";
+            }).length;
+        }
+
+        function isLastActiveAdmin(row) {
+            return row.dataset.role === "Administrator" && row.dataset.status === "Active" && activeAdminCount() <= 1;
+        }
 
         function rows() { return Array.prototype.slice.call(body.querySelectorAll("[data-row]")); }
 
@@ -99,12 +113,31 @@
             var row = button.closest("[data-row]");
             if (button.getAttribute("data-user-action") === "edit") {
                 openForm(row);
+            } else if (row.dataset.status === "Active") {
+                if (row.dataset.email.toLowerCase() === currentEmail) {
+                    DS.toast("You can't deactivate your own account.", "danger");
+                    return;
+                }
+                if (isLastActiveAdmin(row)) {
+                    DS.toast("At least one active administrator is required.", "danger");
+                    return;
+                }
+                pendingDeactivate = row;
+                document.getElementById("deactivate-user-name").textContent = row.dataset.name;
+                DS.openModal(document.getElementById("deactivate-user-modal"));
             } else {
-                var next = row.dataset.status === "Active" ? "Inactive" : "Active";
-                applyStatus(row, next);
+                applyStatus(row, "Active");
                 root.dataTable.refresh();
-                DS.toast(row.dataset.name + " is now " + next.toLowerCase() + ".", "success");
+                DS.toast(row.dataset.name + " is now active.", "success");
             }
+        });
+
+        document.getElementById("confirm-deactivate-user").addEventListener("click", function () {
+            if (!pendingDeactivate) return;
+            applyStatus(pendingDeactivate, "Inactive");
+            DS.toast(pendingDeactivate.dataset.name + " is now inactive.", "success");
+            pendingDeactivate = null;
+            root.dataTable.refresh();
         });
 
         form.addEventListener("submit", function (event) {
@@ -124,6 +157,15 @@
             } else if (emailTaken(email, activeRow)) {
                 DS.setFieldError(emailInput, "Another user already has this email address.");
                 valid = false;
+            }
+            if (activeRow) {
+                if (activeRow.dataset.email.toLowerCase() === currentEmail && roleSelect.value !== activeRow.dataset.role) {
+                    DS.setFieldError(roleSelect, "You can't change your own role.");
+                    valid = false;
+                } else if (isLastActiveAdmin(activeRow) && (roleSelect.value !== "Administrator" || statusSelect.value !== "Active")) {
+                    DS.setFieldError(roleSelect, "At least one active administrator is required.");
+                    valid = false;
+                }
             }
             if (!valid) return;
 

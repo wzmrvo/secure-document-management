@@ -17,7 +17,8 @@
         </div>
     </div>
 
-    <form id="upload-form" novalidate data-redirect="{{ route('documents.index') }}">
+    <form id="upload-form" method="post" novalidate
+        @csrf data-redirect="{{ route('documents.index') }}">
         <div class="grid grid--2-1">
             <section class="card" aria-labelledby="doc-info-title">
                 <div class="card__head"><h3 id="doc-info-title">Document information</h3></div>
