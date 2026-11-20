@@ -14,7 +14,7 @@
 @endphp
 <div {{ $attributes->merge(['class' => $classes]) }} role="img" aria-label="Cavite State University logo placeholder">
     @if ($src)
-        <img src="{{ $src }}" alt="Cavite State University logo">
+        <x-logo src="{{ asset('images/cvsu-logo.png') }}" />
     @else
         <span>CvSU<br>LOGO</span>
     @endif
